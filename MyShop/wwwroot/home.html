@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="home.css" rel="stylesheet" />
+    <script defer src="home.js"></script>
+
+</head>
+<body>
+    <div class="signIn_div">
+        <h1>signIn</h1>
+        <input type="text" id="userName" placeholder="mail:" /><br />
+        <input onblur="CheckPassword()" type="password" id="password" placeholder="password:" /> 
+        <progress max="5" value="0"></progress><br />
+        <input type="text" id="firstName" placeholder=" firstName:" /><br />
+        <input type="text" id="lastName" placeholder="lastName:" /><br />
+        <button onclick="SignIn()">signin</button>
+    </div>
+    <div id="login_div">
+        <h1>logIn</h1>
+        <input type="text" id="userNameLogIn" placeholder="mail:" /><br />
+        <input type="password" id="passwordLogIn" placeholder="password:" /><br />
+        <button onclick="LogIn()">login</button>
+        <button onclick="OpenSignIn()">toSignin</button>
+    </div>
+</body>
+</html>
