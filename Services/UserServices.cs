@@ -29,7 +29,7 @@ public class UserServices : IUserServices
 
     public User Post(User user)
     {
-       
+        //check password strength
         return userResources.Post(user);
 
 
@@ -42,7 +42,7 @@ public class UserServices : IUserServices
     }
 
     public void Put(int id, User user)
-    {
+    {  //check password strength
         userResources.Put(id, user);
 
 

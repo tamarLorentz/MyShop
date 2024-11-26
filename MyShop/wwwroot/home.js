@@ -64,6 +64,10 @@ const SignIn = async () => {
                 },
                 body: JSON.stringify(user)
             });
+            //if status==400
+            //weak password
+            //if !ok
+            //error
             const userPost = await responsePost.json()
             console.log(userPost)
             alert("signIn successfully")

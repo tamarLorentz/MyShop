@@ -22,7 +22,10 @@ const UpDate = async () => {
                 },
                 body: JSON.stringify(user)
             });
-           
+            //if status==400
+            //weak password
+            //if !ok
+            //error
           
             alert("upDate successfully")
         }
