@@ -1,7 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Resources;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ApiManagerContext>(options => options.UseSqlServer
+("Data Source = SRV2\\PUPILS; Initial Catalog = API_manager; Integrated Security = True"));
+
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IUserResources, UserResources>();
 

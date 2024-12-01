@@ -37,9 +37,9 @@ public class UsersController : ControllerBase
 
     // POST api/<UsersController>
     [HttpPost]
-    public ActionResult Post([FromBody] User user)
+    public async Task<ActionResult<User>> Post([FromBody] User user)
     {
-        User newuser = userServices.Post(user);
+        User newuser = await userServices.Post(user);
         return CreatedAtAction(nameof(Get), new { id = newuser.Id }, newuser);
 
 
@@ -47,9 +47,9 @@ public class UsersController : ControllerBase
     // POST api/<UsersController>
     [HttpPost]
     [Route("login")]
-    public ActionResult PostLogIn([FromQuery] string userName,string password)
+    public async Task< ActionResult<User>> PostLogIn([FromQuery] string userName,string password)
     {
-        User userFind = userServices.PostLogIn(userName, password);
+        User userFind = await userServices.PostLogIn(userName, password);
         if (userFind!=null)
                     return Ok(userFind);
         return NoContent();

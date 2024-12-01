@@ -9,7 +9,8 @@
     <div class="signIn_div_upDate">
         <h1>upDate</h1>
         <input type="text" id="userName" placeholder="mail:" /><br />
-        <input type="password" id="password" placeholder="password:" /><br />
+        <input onblur="CheckPassword()" type="password" id="password" placeholder="password:" />
+        <progress max="5" value="0"></progress><br />
         <input type="text" id="firstName" placeholder=" firstName:" /><br />
         <input type="text" id="lastName" placeholder="lastName:" /><br />
         <button onclick="UpDate()">upDate</button>
