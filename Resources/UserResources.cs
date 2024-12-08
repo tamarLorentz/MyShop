@@ -53,26 +53,8 @@ namespace Resources
 
         public async Task Put(int id, User user)
         {
-            //    user.Id = id;
-            //    string textToReplace = string.Empty;
-            //    using (StreamReader reader = System.IO.File.OpenText(pathFile))
-            //    {
-            //        string currentUserInFile;
-            //        while ((currentUserInFile = reader.ReadLine()) != null)
-            //        {
-
-            //            User putUser = JsonSerializer.Deserialize<User>(currentUserInFile);
-            //            if (user.Id == id)
-            //                textToReplace = currentUserInFile;
-            //        }
-            //    }
-
-            //    if (textToReplace != string.Empty)
-            //    {
-            //        string text = System.IO.File.ReadAllText(pathFile);
-            //        text = text.Replace(textToReplace, JsonSerializer.Serialize(user));
-            //        System.IO.File.WriteAllText(pathFile, text);
-            //    }
+               user.Id = id;
+            
 
             context.Users.Update(user);
             context.SaveChangesAsync();
