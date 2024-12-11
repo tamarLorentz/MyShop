@@ -28,9 +28,10 @@ namespace Resources
         public async Task<User> Post(User user)
         {
 
-            await context.Users.AddAsync(user);
+           var res= await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
-            return user;
+            return res;// - the created user with the id
+           // return user;
 
         }
 
@@ -51,7 +52,7 @@ namespace Resources
             return userFind;
         }
 
-        public async Task Put(int id, User user)
+        public async Task Put(int id, User user)//return user
         {
             //    user.Id = id;
             //    string textToReplace = string.Empty;
