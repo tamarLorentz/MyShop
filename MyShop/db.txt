@@ -1,8 +1,0 @@
-{"Id":1,"UserName":"t0583204393@gmail.cone","Password":"111","FirstName":"tamar","LastName":"lorentz"}
-{"Id":2,"UserName":"11@11","Password":"11","FirstName":"11","LastName":"11"}
-{"Id":3,"UserName":"11@1","Password":"111","FirstName":"w","LastName":"ww"}
-{"Id":4,"UserName":"1@11","Password":"22","FirstName":"22","LastName":"22"}
-{"Id":4,"UserName":"1@11","Password":"22","FirstName":"1111","LastName":"1111"}
-{"Id":6,"UserName":"1@1","Password":"11","FirstName":"11","LastName":"11"}
-{"Id":6,"UserName":"1@1","Password":"11","FirstName":"1111","LastName":"1111"}
-{"Id":8,"UserName":"www@111","Password":"wwww","FirstName":"www","LastName":"www"}

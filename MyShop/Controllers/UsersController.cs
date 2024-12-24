@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Services;
+using Entites;
+using DTO;
+using AutoMapper;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
+//no change to delete delte,post
 namespace MyShop.Controllers;
 
 
@@ -11,28 +14,27 @@ namespace MyShop.Controllers;
 public class UsersController : ControllerBase
 {
     IUserServices userServices;
-   public  UsersController (IUserServices _userServices)
+    IMapper mapper;
+    public  UsersController (IUserServices _userServices, IMapper mapper)
     {
-
-        userServices = _userServices;
-
-
+   this.mapper =  mapper;
+    userServices = _userServices;
 }
-
-
-    string pathFile = "M:\\WebAPI\\lesson1\\MyShop\\MyShop\\db.txt";
-    // GET: api/<UsersController>
-    [HttpGet]
-    public IEnumerable<string> Get()
-    {
-        return userServices.Get();
-    }
+    
+ 
 
     // GET api/<UsersController>/5
     [HttpGet("{id}")]
-    public string Get(int id)
+    public async Task<ActionResult<User>> Get(int id)
     {
-        return userServices.Get(id);
+        User user = await userServices.Get(id);
+    UserDTO userDTO = mapper.Map<User, UserDTO>(user);
+
+    if (userDTO != null)
+        {
+            return Ok(userDTO);
+        }
+        else return NoContent();
     }
 
     // POST api/<UsersController>
@@ -40,9 +42,9 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<User>> Post([FromBody] User user)
     {
         User newuser = await userServices.Post(user);
-        return CreatedAtAction(nameof(Get), new { id = newuser.Id }, newuser);
+        UserDTO userDTO = mapper.Map<User, UserDTO>(newuser);
 
-
+        return CreatedAtAction(nameof(Get), new { id = userDTO.Id }, userDTO);
     }
     // POST api/<UsersController>
     [HttpPost]
@@ -50,8 +52,10 @@ public class UsersController : ControllerBase
     public async Task< ActionResult<User>> PostLogIn([FromQuery] string userName,string password)
     {
         User userFind = await userServices.PostLogIn(userName, password);
-        if (userFind!=null)
-                    return Ok(userFind);
+        UserDTO userDTO = mapper.Map<User, UserDTO>(userFind);
+
+        if (userDTO != null)
+                    return Ok(userDTO);
         return NoContent();
     }
    
@@ -60,17 +64,19 @@ public class UsersController : ControllerBase
 
     // PUT api/<UsersController>/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] User user)
+    public async Task<ActionResult<User>> Put(int id, [FromBody] User user)
     {
-       userServices.Put(id,user);
+       User newUser = await  userServices.Put(id,user);
+        UserDTO userDTO = mapper.Map<User, UserDTO>(newUser);
+        if (userDTO != null)
+            return Ok(userDTO);
+        else
+        return NoContent();
+
     }
 
-    // DELETE api/<UsersController>/5
-    [HttpDelete("{id}")]
-    public void Delete(int id)
-    {
-    }
-    [HttpPost]
+    
+    [HttpGet]
     [Route("check")]
     public int CheckPassword([FromQuery] string password)
     {

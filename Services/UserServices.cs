@@ -1,4 +1,4 @@
-﻿using MyShop;
+﻿using Entites;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using Resources;
@@ -16,12 +16,9 @@ public class UserServices : IUserServices
         userResources = _userResources;
     }
 
-    public IEnumerable<string> Get()
-    {
-        return userResources.Get();
-    }
 
-    public string Get(int id)
+
+    public Task<User> Get(int id)
     {
         return userResources.Get(id);
     }
@@ -43,19 +40,22 @@ public class UserServices : IUserServices
         return userResources.PostLogIn(userName, password);
     }
 
-    public void Put(int id, User user)
+    public Task<User> Put(int id, User user)
     {
         int passwordScore = CheckPassword(user.Password);
         if (passwordScore > 3)
-           userResources.Put(id, user);
+        {
+            return userResources.Put(id, user);
+          
+        }
+        else
+            return null;
 
 
     }
 
 
-    public void Delete(int id)
-    {
-    }
+  
     public int CheckPassword(string password)
     {
         return Zxcvbn.Core.EvaluatePassword(password).Score;
