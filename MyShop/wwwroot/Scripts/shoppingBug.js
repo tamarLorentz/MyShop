@@ -1,40 +1,91 @@
-< !DOCTYPE html >
-    <html>
-        <head>
-            <meta charset="utf-8" />
-            <title></title>
-            <link href="../Style/shoppingBag.css" rel="stylesheet" />
-            <script src="../Scripts/"></script>
-            <template id="temp-row">
-                <tr class="item-row">
-                    <td class="imageColumn"><a rel="lightbox" href="#"><div class="image"></div></a></td>
-                    <td class="descriptionColumn"><div><h3 class="itemName"></h3><h6><p class="itemNumber"></p><a class="viewLink" href="https://www.next.co.il/he/g59522s11#407223">לפרטים נוספים</a></h6></div></td>
-                    <td class="availabilityColumn"><div>במלאי</div></td>
-                    <td class="totalColumn delete"><div class="expandoHeight" style="height: 99px;"><p class="price"></p><a href="#" title="לחצו כאן כדי להסיר את פריט זה" class="Hide DeleteButton showText">הסרת פריט</a></div></td>
-                </tr>
-            </template>
-        </head>
-        <body>
-            <div class="cart">
-                <div id="title">
-                    <h1> סל קניות </h1>
-                    <p>
-                        הסל שלך מכיל <span id="itemCount"></span> פריטים ומגיע לסך של <span id="totalAmount"></span>.
-                    </p>
-                    <a class="nxbtn primary GoToCheckout TopLink checkout_transfer" href="#" onclick="placeOrder(); return false;">לביצוע ההזמנה</a> <a class="shopmore" href="Products.html?fromShoppingBag=1">המשך בקניה</a> <div class="ClearBoth"></div>
-                </div>
-                <div class="cistGroup">
-                    <table id="items" class="items">
-                        <thead>
-                            <tr>
-                                <th class="itemsColumn" colspan="2">פריטים</th>
-                                <th>זמינות</th>
-                                <th class="totalColumn">סכום ההזמנה</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        </body>
-    </html>
+
+const getCart=() => {
+    let cart = sessionStorage.getItem('cart')
+    cart = cart ? JSON.parse(cart) : []
+    return cart
+}
+const OnLoad = () => {
+    loadCart()
+}
+loadCart = () => {
+    document.querySelector("tbody").innerHTML = ""
+   const cart = getCart()
+    let tmp = document.querySelector("#temp-row");
+    cart.forEach(ProductCart => {
+        let cloneProductCart = tmp.content.cloneNode(true)
+        cloneProductCart.querySelector('.image').style.backgroundImage = `url(/Images/${ProductCart.image})`  
+        cloneProductCart.querySelector(".itemName").innerText = ProductCart.name
+        cloneProductCart.querySelector(".price").innerText = ProductCart.price
+        cloneProductCart.querySelector(".showText").addEventListener('click', () => { removeProduct(ProductCart) })
+
+        document.querySelector("tbody").appendChild(cloneProductCart)
+      
+    })
+    totalAmount()
+    document.querySelector("#itemCount").innerText = cart.length
+}
+const totalAmount = () => {
+    const cart = getCart()
+    const initialValue = 0;
+    const sum = cart.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.price,initialValue,);
+ 
+    const totalAmount = document.querySelector("#totalAmount")
+    console.log(sum +" "+ totalAmount)
+    totalAmount.textContent =sum
+}
+const removeProduct = (ProductCart) => {
+   
+    let cart = getCart()
+    let flag = false
+    cart = cart.filter(p => {
+        if (p.id == ProductCart.id && !flag) {
+            flag = true
+            return false;
+        }
+        else return true
+    })
+    sessionStorage.setItem('cart', JSON.stringify(cart))
+
+        loadCart()
+    
+}
+
+
+const placeOrder =async () => {
+    try {
+        const order = GetData()
+        if (order) {
+            const responsePost = await fetch('api/Orders', {
+                method: 'POST',
+                headers: {
+                    'content-Type': 'application/json'
+                },
+                body: JSON.stringify(order)
+            });
+            const orderPost = await responsePost.json()
+            console.log(orderPost)
+            alert("order successfully")
+        }
+    }
+    catch (Error) {
+        console.log(Error)
+
+    }
+    sessionStorage.removeItem('cart')
+    loadCart()
+}
+    const GetData = () => {
+        const OrderItems = []
+        const cart = getCart()
+        for (let i = 0; i < cart.length; i++) {
+            const orderItem = OrderItems.find(oi => oi.ProuductId == cart[i].id)
+            if (orderItem)
+                orderItem.Quantity++;
+            else
+                OrderItems.push({ ProuductId: cart[i].id, Quantity: 1 })
+        }
+        const UserId = sessionStorage.getItem('currentUserId')
+        return { UserId, OrderItems }
+    }
+

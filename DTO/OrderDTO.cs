@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-   public record GetOrderItemDTO(int Id, int ProuductId, int? Quantity);
-    public record GetOrderDTO(int Id, DateOnly Date, float Sum, int UserId , ICollection<GetOrderItemDTO> OrderItems); 
-    public record PostOrderDTO(int Id, DateOnly Date, float Sum, int UserId); 
+   public record OrderItemDTO(int ProuductId, int? Quantity);
+    public record GetOrderDTO(int Id, DateOnly Date, float Sum, int UserId , ICollection<OrderItemDTO> OrderItems); 
+   
+    //whene do date???
+    public record PostOrderDTO( int UserId, ICollection<OrderItemDTO> OrderItems); 
 }
 
 

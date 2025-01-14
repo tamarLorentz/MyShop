@@ -24,9 +24,9 @@ namespace MyShop.Controllers
 
         // GET: api/<Product>
         [HttpGet]
-        public async  Task<ActionResult<IEnumerable<Product>>> Get()
+        public async  Task<ActionResult<IEnumerable<Product>>> Get([FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] int?[] categoryIds, [FromQuery] string? desc)
         {
-            IEnumerable<Product> products = await productServices.Get();
+            IEnumerable<Product> products = await productServices.Get( minPrice,maxPrice,categoryIds,desc);
             IEnumerable<ProductDTO> productsDTO = mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
 
             if (productsDTO != null)

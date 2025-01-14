@@ -23,10 +23,7 @@ const CheckPassword = async () => {
     if (password) {
         try {
             let responsePost = await fetch(`api/Users/check?password=${password}`, {
-                method: 'POST',
-                headers: {
-                    'content-Type': 'application/json'
-                },
+                method: 'GET',
                 query: { password }
             });
 
@@ -103,7 +100,7 @@ const LogIn = async () => {
                 console.log(userPost)
                 alert("logIn successfully")
                 sessionStorage.setItem("currentUserId", userPost.id)
-                window.location.href="upDateUser.html"
+                window.location.href="home.html"
             }
 
         }

@@ -13,13 +13,14 @@ namespace MyShop
         
    public Mapper()
         {
-
+           
             CreateMap<Category, GetCategoryDTO>();
             CreateMap<Order, GetOrderDTO>();
-            CreateMap<Order, PostOrderDTO>();
+            CreateMap<PostOrderDTO, Order>();
             CreateMap<Product, ProductDTO>();
             CreateMap<User, UserDTO>();
-            CreateMap<OrderItem, GetOrderItemDTO>();
+            CreateMap<OrderItem, OrderItemDTO>().ReverseMap();
+           
         }
     }
 }
