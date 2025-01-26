@@ -12,7 +12,7 @@ const OnLoad = () => {
                 query: { userName: postData.userName, password: postData.password }*/
 const GetProducts = async () => {
     const element = getElementFilter()
-    let url = "api/Products"
+    let url = "api/Products"// build url in a seperated func
     if (element.minPrice || element.maxPrice || element.namesearch || categoriesArr>0) {
         url += '?'
         if (element.minPrice)
@@ -21,7 +21,7 @@ const GetProducts = async () => {
             url += `&maxPrice=${element.maxPrice}`
         if (element.namesearch)
             url += `&desc=${element.namesearch}`
-        for (let i = 0; i < categoriesArr.length; i++)
+        for (let i = 0; i < categoriesArr.length; i++)//map is nicer- categoriesArr.map
             url += `&categoryIds=${categoriesArr[i]}`
     }
   
