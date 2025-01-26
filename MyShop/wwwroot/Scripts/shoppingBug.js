@@ -37,6 +37,7 @@ const totalAmount = () => {
 const removeProduct = (ProductCart) => {
    
     let cart = getCart()
+    //you can use indexOf and splice, simple and shorter...
     let flag = false
     cart = cart.filter(p => {
         if (p.id == ProductCart.id && !flag) {
