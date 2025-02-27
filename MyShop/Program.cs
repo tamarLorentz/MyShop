@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using MyShop;
+using NLog.Web;
 using Resources;
 using Services;
 
@@ -16,11 +18,14 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IRatingServices, RatingServices>();
+builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 // Add services to the container.
-
+builder.Host.UseNLog();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -29,6 +34,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseRatingMiddleware();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

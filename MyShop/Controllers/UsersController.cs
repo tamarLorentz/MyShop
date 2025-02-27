@@ -15,10 +15,12 @@ public class UsersController : ControllerBase
 {
     IUserServices userServices;
     IMapper mapper;
-    public  UsersController (IUserServices _userServices, IMapper mapper)
+    private readonly ILogger<UsersController> logger;
+    public  UsersController (IUserServices _userServices, IMapper mapper, ILogger<UsersController> logger)
     {
-   this.mapper =  mapper;
+    this.mapper =  mapper;
     userServices = _userServices;
+    this.logger = logger;
 }
     
  
@@ -27,11 +29,11 @@ public class UsersController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<User>> Get(int id)
     {
-        User user = await userServices.Get(id);
+    User user = await userServices.Get(id);
     UserDTO userDTO = mapper.Map<User, UserDTO>(user);
 
     if (userDTO != null)
-        {
+         {  
             return Ok(userDTO);
         }
         else return NoContent();
@@ -54,8 +56,11 @@ public class UsersController : ControllerBase
         User userFind = await userServices.PostLogIn(userName, password);
         UserDTO userDTO = mapper.Map<User, UserDTO>(userFind);
 
-        if (userDTO != null)
-                    return Ok(userDTO);
+        if (userDTO != null) {
+            logger.LogInformation($"login attempt with usernsme:{userName} and password:{password}");
+
+            return Ok(userDTO);
+        }
         return NoContent();
     }
    

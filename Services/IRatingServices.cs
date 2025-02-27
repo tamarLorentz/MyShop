@@ -1,0 +1,9 @@
+﻿using Entites;
+
+namespace Services
+{
+    public interface IRatingServices
+    {
+        void PostRating(Rating rating);
+    }
+}
