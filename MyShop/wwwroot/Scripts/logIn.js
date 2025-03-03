@@ -1,11 +1,12 @@
 ﻿
 let resPas;
 const GetDataFromSignIn = () => {
+    CheckPassword()
     const userName = document.getElementById("userName").value
     const password = document.getElementById("password").value
     const firstName = document.getElementById("firstName").value
     const lastName = document.getElementById("lastName").value
-     if (userName.indexOf('@') == -1)
+    if (userName.indexOf('@') == -1 || userName.indexOf('@') == userName.length-1)
          alert("email is wrong")
      else if (resPas < 3)
          alert("yout password is not enough strong")
@@ -70,6 +71,69 @@ const SignIn = async () => {
         console.log(Error)
 
     }
+}
+
+const UpDate = async () => {
+    try {
+       
+        const id = sessionStorage.getItem("currentUserId")
+        const user = GetDataFromSignIn()
+        if (user) {
+            const responsePut = await fetch(`api/Users/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'content-Type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            });
+
+
+            alert("upDate successfully")
+            window.location.href = "home.html"
+        }
+    }
+    catch (Error) {
+        console.log('error:', Error)
+
+    }
+}
+const Details = async () => {
+    const id = sessionStorage.getItem("currentUserId")
+    if (id) {
+        const currentUser =await  GetUserById(id);
+        console.log(currentUser)
+        document.getElementById("userName").value = currentUser.userName
+       // document.getElementById("password").value = ""
+        document.getElementById("firstName").value = currentUser.firstName
+        document.getElementById("lastName").value = currentUser.lastName
+    }
+    else {
+    alert("אינך משתמש רשום")
+    window.location.href = "/home.html"
+}
+}
+const GetUserById = async (id) => {
+   
+        try {
+            const UserById = await fetch(`api/Users/${id}`, {
+                method: 'Get',
+                headers: {
+                    'content-Type': 'application/json'
+                }
+            });
+
+            if (!UserById.ok) {
+                throw new Error(`http error ${UserById.status}`)
+            }
+            currentUser = await UserById.json()
+           
+            return currentUser;
+        }
+        catch (Error) {
+            console.log(Error)
+        }
+    
+ 
 }
 const GetDataFromLogIn=() => {
     const userName = document.getElementById("userNameLogIn").value

@@ -1,7 +1,7 @@
 ﻿let categoriesArr = []
-const OnLoad = () => {
-    LoadCategories()
-   GetProducts()
+const OnLoad = async() => {
+  await LoadCategories()
+await GetProducts()
    
 }
 /*    const responsePost = await fetch(`api/Users/LogIn?userName=${postData.userName}&password=${postData.password}`, {
@@ -49,6 +49,7 @@ const gatCart = () => {
 return cart}
 
 const LoadProducts = async (products) => {
+    
    
     let tmp = document.getElementById("temp-card");
     document.getElementById("PoductList").innerHTML = ""
@@ -62,6 +63,7 @@ const LoadProducts = async (products) => {
 
     document.getElementById("PoductList").appendChild(cloneProduct)
     })
+    document.getElementById("counter").innerHTML = products.length
 }
 const GetCategories = async () => {
     console.log("Categories")
@@ -72,6 +74,9 @@ const GetCategories = async () => {
                 'content-Type': 'application/json'
             }
         });
+        if (!categoryGet.ok) {
+            throw new Error(`http error ${categoryGet.status}`)
+        }
         Categories = await categoryGet.json()
         console.log(Categories)
         return Categories;
@@ -116,22 +121,23 @@ const filterProducts = () => {
 
 }
 const addToCart = (product) => {
-    //development
-    sessionStorage.setItem('currentUserId', 2)
-    const user = sessionStorage.getItem('currentUserId')
-    if (user == null) {
-        const result = confirm("אינך מחובר! לחץ אישור להתחברות")
-        if(result)
-        window.location.href = "/login.html"
-    }
-    else {
-       
         let cart = gatCart()
         cart.push(product)
         sessionStorage.setItem('cart', JSON.stringify(cart))
         document.getElementById("ItemsCountText").innerText = cart.length
-      //  alert("המוצר נוסף בהצלחה!")
-        
+      //  alert("המוצר נוסף בהצלחה!") 
+}
+const TrackLinkID =()=> {
+    //development
+    //sessionStorage.setItem('currentUserId', 2)
+    const user = sessionStorage.getItem('currentUserId')
+    if (user == null) {
+        const result = confirm("אינך מחובר! לחץ אישור להתחברות")
+        if (result)
+            window.location.href = "/login.html"
+    }
+    else {
+        window.location.href ="/upDateUser.html"
     }
 }
 

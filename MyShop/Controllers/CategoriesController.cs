@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using DTO;
 using System.Collections.Generic;
 using AutoMapper;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Repository;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MyShop.Controllers
 {
@@ -14,29 +14,40 @@ namespace MyShop.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        IMapper mapper;
-        ICategoryServices categoryServices;
+        private readonly IMapper _mapper;
+        private readonly ICategoryServices _categoryServices;
+        private readonly IMemoryCache _memoryCache;
 
-        public CategoriesController(ICategoryServices categoryServices, IMapper mapper)
+        public CategoriesController(ICategoryServices categoryServices, IMapper mapper, IMemoryCache memoryCache)
         {
-            this.categoryServices = categoryServices;
-            this.mapper = mapper;
+            _categoryServices = categoryServices;
+            _mapper = mapper;
+            _memoryCache = memoryCache;
         }
+
         // GET: api/<CategoriesController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> Get()
+        public async Task<ActionResult<IEnumerable<GetCategoryDTO>>> Get()
         {
-            IEnumerable <Category> Categoryies = await categoryServices.Get();
-            IEnumerable<GetCategoryDTO> CategoryiesDTO = mapper.Map<IEnumerable<Category>, IEnumerable<GetCategoryDTO>>(Categoryies);
-
-            if (CategoryiesDTO != null)
+            if (!_memoryCache.TryGetValue("CategoriesCache", out IEnumerable<Category> categories))
             {
-                return Ok(CategoryiesDTO);
-            }
-            else
-                return NoContent();
-        }
+                categories = await _categoryServices.Get();
 
-       
+                if (categories == null || !categories.Any())
+                {
+                    return NotFound();
+                }
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
+                };
+
+                _memoryCache.Set("CategoriesCache", categories, cacheEntryOptions);
+            }
+
+            return Ok(_mapper.Map<IEnumerable<Category>, IEnumerable<GetCategoryDTO>>(categories));
+        }
     }
 }
+

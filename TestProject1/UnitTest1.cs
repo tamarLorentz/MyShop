@@ -19,7 +19,7 @@ namespace TestProject1
             var users = new List<User>() { user };
             mockContext.Setup(x => x.Users).ReturnsDbSet(users);
 
-            var userRepository = new UserResources(mockContext.Object);
+            var userRepository = new UserRepository(mockContext.Object);
 
             //Act 
             var result = await userRepository.PostLogIn(user.UserName, user.Password);

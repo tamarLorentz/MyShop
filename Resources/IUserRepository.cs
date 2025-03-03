@@ -1,8 +1,8 @@
 ﻿using Entites;
 
-namespace Resources
+namespace Repository
 {
-    public interface IUserResources
+    public interface IUserRepository
     {
      
 

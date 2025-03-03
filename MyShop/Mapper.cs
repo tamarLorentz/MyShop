@@ -18,7 +18,8 @@ namespace MyShop
             CreateMap<Order, GetOrderDTO>();
             CreateMap<PostOrderDTO, Order>();
             CreateMap<Product, ProductDTO>();
-            CreateMap<User, UserDTO>();
+            CreateMap<User, GetUserDTO>();
+            CreateMap<PostUserDTO,User>();
             CreateMap<OrderItem, OrderItemDTO>().ReverseMap();
            
         }

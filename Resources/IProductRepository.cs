@@ -1,7 +1,7 @@
 ﻿
 using Entites;
 
-namespace Resources
+namespace Repository
 {
     public interface IProductRepository
     {

@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Resources
+namespace Repository
 {
     public class CategoryRepository : ICategoryRepository
     {
-        ApiManagerContext context;
+        private readonly ApiManagerContext context;
         public CategoryRepository(ApiManagerContext apiManagerContext)
         {
             context = apiManagerContext;
@@ -18,7 +18,9 @@ namespace Resources
 
         public async Task<IEnumerable<Category>> Get()
         {
-            return await context.Categories.ToListAsync<Category>();
+            return await context.Categories.ToListAsync();
         }
     }
 }
+
+

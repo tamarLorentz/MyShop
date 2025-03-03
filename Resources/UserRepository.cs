@@ -2,13 +2,13 @@
 using Entites;
 using System.Runtime.InteropServices;
 using System.Text.Json;
-namespace Resources
+namespace Repository
 {
-    public class UserResources : IUserResources
+    public class UserRepository : IUserRepository
     {
         
         ApiManagerContext context;
-        public UserResources(ApiManagerContext apiManagerContext)
+        public UserRepository(ApiManagerContext apiManagerContext)
         {
             context = apiManagerContext;
         }

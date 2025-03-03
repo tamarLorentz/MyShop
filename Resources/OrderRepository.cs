@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Entites;
 using Microsoft.EntityFrameworkCore;
 
-namespace Resources
+namespace Repository
 {
     public class OrderRepository : IOrderRepository
     {

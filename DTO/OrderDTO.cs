@@ -12,7 +12,7 @@ namespace DTO
     public record GetOrderDTO(int Id, DateOnly Date, float Sum, int UserId , ICollection<OrderItemDTO> OrderItems); 
    
     //whene do date???
-    public record PostOrderDTO( int UserId, ICollection<OrderItemDTO> OrderItems); 
+    public record PostOrderDTO(double? Sum, int UserId, ICollection<OrderItemDTO> OrderItems); 
 }
 
 

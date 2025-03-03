@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using Azure.Core;
 using Entites;
-namespace MyShop
+namespace MyShop.Middlewares
 {
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class RatingMiddleware
@@ -19,7 +19,7 @@ namespace MyShop
             _next = next;
         }
 
-        public Task Invoke(HttpContext httpContext, IRatingServices _ratingServices)
+        public async Task Invoke(HttpContext httpContext, IRatingServices _ratingServices)
         {
             Rating rating = new()
             {
@@ -29,12 +29,12 @@ namespace MyShop
                 Referer = httpContext.Request.Headers.Referer.ToString(),
                 UserAgent = httpContext.Request.Headers.UserAgent.ToString(),
                 RecordDate = DateTime.Now,
-                
+
             };
 
 
-                 _ratingServices.PostRating(rating);
-                 return _next(httpContext);
+            await _ratingServices.PostRating(rating);
+            await _next(httpContext);
 
         }
     }

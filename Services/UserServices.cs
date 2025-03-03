@@ -1,7 +1,7 @@
 ﻿using Entites;
 using System.Runtime.InteropServices;
 using System.Text.Json;
-using Resources;
+using Repository;
 using Zxcvbn;
 
 
@@ -10,8 +10,8 @@ namespace Services;
 public class UserServices : IUserServices
 {
 
-    IUserResources userResources;
-    public UserServices(IUserResources _userResources)
+    IUserRepository userResources;
+    public UserServices(IUserRepository _userResources)
     {
         userResources = _userResources;
     }
@@ -43,14 +43,13 @@ public class UserServices : IUserServices
     public Task<User> Put(int id, User user)
     {
         int passwordScore = CheckPassword(user.Password);
-        if (passwordScore > 3)
+        if (passwordScore >= 3)
         {
             return userResources.Put(id, user);
           
         }
         else
             return null;
-
 
     }
 

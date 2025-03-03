@@ -52,33 +52,46 @@ const removeProduct = (ProductCart) => {
 }
 
 
-const placeOrder =async () => {
-    try {
-        const order = GetData()
-        if (order) {
-            const responsePost = await fetch('api/Orders', {
-                method: 'POST',
-                headers: {
-                    'content-Type': 'application/json'
-                },
-                body: JSON.stringify(order)
-            });
-            const orderPost = await responsePost.json()
-            console.log(orderPost)
-            alert("order successfully")
+const placeOrder = async () => {
+    //development
+    //sessionStorage.setItem('currentUserId', 2)
+    const user = sessionStorage.getItem('currentUserId')
+    if (user == null) {
+        const result = confirm("אינך מחובר! לחץ אישור להתחברות")
+        if (result)
+            window.location.href = "/login.html"
+    }
+    else {
+        try {
+            const order = GetData()
+            if (order) {
+                const responsePost = await fetch('api/Orders', {
+                    method: 'POST',
+                    headers: {
+                        'content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(order)
+                });
+                const orderPost = await responsePost.json()
+                console.log(orderPost)
+                alert(`order ${orderPost.id} created successfully`)
+                document.location.href = "/home.html";
+            }
         }
-    }
-    catch (Error) {
-        console.log(Error)
+        catch (Error) {
+            console.log(Error)
 
+        }
+        sessionStorage.removeItem('cart')
+        loadCart()
     }
-    sessionStorage.removeItem('cart')
-    loadCart()
 }
     const GetData = () => {
         const OrderItems = []
         const cart = getCart()
+        let Sum=0;
         for (let i = 0; i < cart.length; i++) {
+            Sum+=cart[i].price
             const orderItem = OrderItems.find(oi => oi.ProuductId == cart[i].id)
             if (orderItem)
                 orderItem.Quantity++;
@@ -86,6 +99,7 @@ const placeOrder =async () => {
                 OrderItems.push({ ProuductId: cart[i].id, Quantity: 1 })
         }
         const UserId = sessionStorage.getItem('currentUserId')
-        return { UserId, OrderItems }
+        console.log("sum:"+Sum)
+        return { UserId, OrderItems ,Sum}
     }
 

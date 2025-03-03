@@ -1,6 +1,6 @@
 ﻿namespace DTO
 {
-    public record GetCategoryDTO(int Id, string Name);
+    public record GetCategoryDTO(int? Id, string? Name);
    
 
 }

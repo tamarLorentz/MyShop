@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entites;
-using Resources;
+using Repository;
 
 namespace Services
 {
@@ -17,9 +17,9 @@ namespace Services
             this.ratingRepository = ratingRepository;
         }
 
-        public void PostRating(Rating rating)
+        public async Task PostRating(Rating rating)
         {
-            ratingRepository.PostRating(rating);
+           await ratingRepository.PostRating(rating);
         }
     }
 }

@@ -2,7 +2,7 @@
 using DTO;
 using Entites;
 using Microsoft.AspNetCore.Mvc;
-using Resources;
+using Repository;
 using Services;
 using DTO;
 
@@ -41,7 +41,7 @@ namespace MyShop.Controllers
 
         // POST api/<OrderController>
         [HttpPost]
-        public async Task<ActionResult<PostOrderDTO>> Post([FromBody] PostOrderDTO orderDTO)
+        public async Task<ActionResult<GetOrderDTO>> Post([FromBody] PostOrderDTO orderDTO)
         {
             Order order = mapper.Map<PostOrderDTO, Order>(orderDTO);
             Order neworder =  await orderServices.Post(order);
