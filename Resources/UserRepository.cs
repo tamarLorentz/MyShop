@@ -19,7 +19,7 @@ namespace Repository
         public async Task<User> Get(int id)
 
         {
-            return await context.Users.FindAsync(id);
+            return await context.Users.FirstOrDefaultAsync(user => user.Id == id);
         }
 
 
@@ -27,8 +27,8 @@ namespace Repository
         {
             var res = await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
-            return user;
-           // return res;
+          return user;
+           //return res.Entity;
       }
 
         public async Task<User> PostLogIn(string userName, string password)

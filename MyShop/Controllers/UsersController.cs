@@ -46,8 +46,13 @@ public class UsersController : ControllerBase
         User user = mapper.Map<PostUserDTO, User>(userDTO);
         User newuser = await userServices.Post(user);
         GetUserDTO getuserDTO = mapper.Map<User, GetUserDTO>(newuser);
-
-        return CreatedAtAction(nameof(Get), new { id = getuserDTO.Id }, getuserDTO);
+        if (getuserDTO != null)
+        {
+            return CreatedAtAction(nameof(Get), new { id = getuserDTO.Id }, getuserDTO);
+        }
+        else return NoContent();
+    
+        
     }
     // POST api/<UsersController>
     [HttpPost]

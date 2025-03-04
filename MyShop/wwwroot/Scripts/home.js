@@ -55,7 +55,7 @@ const LoadProducts = async (products) => {
     document.getElementById("PoductList").innerHTML = ""
     products.forEach(product => { 
     let cloneProduct = tmp.content.cloneNode(true)
-    cloneProduct.querySelector("img").src = "./Images/" + product.image
+    cloneProduct.querySelector("img").src = `./Images/${product.image}`
     cloneProduct.querySelector("h1").textContent = product.name
     cloneProduct.querySelector(".price").innerText = product.price
     cloneProduct.querySelector(".description").innerText = product.description

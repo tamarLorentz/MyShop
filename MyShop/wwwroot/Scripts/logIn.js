@@ -48,8 +48,6 @@ const CheckPassword = async () => {
                 
             }
 
-
-
         }
         catch (Error) {
             console.log(Error)
@@ -76,7 +74,7 @@ const SignIn = async () => {
             const userPost = await responsePost.json()
             console.log(userPost)
             alert("signIn successfully")
-            document.getElementById('signIn_div').style.display = 'none';
+            document.querySelector('.signIn_div').style.display = 'none';
             document.getElementById('login_div').style.display = 'block';
         }
     }
