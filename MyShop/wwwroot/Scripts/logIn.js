@@ -1,5 +1,14 @@
 ﻿
 let resPas;
+const CloseSignIn = () => {
+    console.log("aaa");
+    
+    const signInDiv = document.querySelector('.signIn_div');
+    if (signInDiv) {
+        signInDiv.style.display = 'none';
+    }
+}
+
 const GetDataFromSignIn = () => {
     CheckPassword()
     const userName = document.getElementById("userName").value
@@ -48,8 +57,10 @@ const CheckPassword = async () => {
     }
 }
 const OpenSignIn = () => {
-    const signIn1 = document.querySelector(".signIn_div")
-    signIn1.classList.remove("signIn_div")
+    document.getElementById('login_div').style.display = 'none'
+        document.querySelector('.signIn_div').style.display = 'block';
+    // const signIn1 = document.querySelector(".signIn_div")
+    // signIn1.classList.remove("signIn_div")
 }
 const SignIn = async () => {
     try {
@@ -65,6 +76,8 @@ const SignIn = async () => {
             const userPost = await responsePost.json()
             console.log(userPost)
             alert("signIn successfully")
+            document.getElementById('signIn_div').style.display = 'none';
+            document.getElementById('login_div').style.display = 'block';
         }
     }
     catch (Error) {
@@ -175,6 +188,18 @@ const LogIn = async () => {
         }
     }
 }
+/* JavaScript להחלפת תצוגה */
+
+    // const  OpenSignIn =()=> {
+    //     document.getElementById('login_div').style.display = 'none'
+    //     document.getElementById('signIn_div').style.display = 'block';
+    // }
+
+    // function CloseSignIn() {
+    //     alert('Registration successful! Redirecting to login.');
+    //     document.getElementById('signIn_div').style.display = 'none';
+    //     document.getElementById('login_div').style.display = 'block';
+    // }
 
 
 

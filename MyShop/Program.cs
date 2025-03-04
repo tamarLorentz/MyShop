@@ -8,7 +8,7 @@ using Services;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddDbContext<ApiManagerContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SchooleConnection")));
+//builder.Services.AddDbContext<ApiManagerContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SchooleConnection")));
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
